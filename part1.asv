@@ -24,11 +24,11 @@ G = zeros(L*W,L*W);
 for i =1:1:L
     for j =1:1:W
         n = j+(i-1)*W;
-        
         nxm = j+(i-2)*W;
         nxp = j+i*W;
         nyp = j+1+ (i-1)*W;
         nym = j-1+ (i-1)*W;
+        
         if(i==1)
             G(n,:) = 0;
             G(n,n) = 1;
@@ -40,7 +40,7 @@ for i =1:1:L
             G(n,n) = 1;
         elseif(j==W)
             G(n,:) = 0;
-            G(n,n) = 1;
+            G(n,n) = 0;
         else          
             G(n,n) = -4;
             G(n,nxm) = 1; 
@@ -51,7 +51,15 @@ for i =1:1:L
     end
 end
 
-[V,D] = eigs(G,9,'SM');
+[V,D] = eigs(G);
 
-
+%remap
+for i =1:1:L
+    for j =1:1:W
+        n=j+(i-1)*W;
+        
+        Vs(i,j) =V(n,1);
+        
+    end
+end
 
