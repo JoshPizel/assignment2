@@ -19,7 +19,8 @@ C.q_0 = 1.60217653e-19;             % electron charge
 L = 75;
 W = 50;
 
-G = zeros(L*W,L*W);
+G = sparse(L*W,L*W);
+R = zeros(L*W,1);
 
 for i =1:1:L
     for j =1:1:W
@@ -32,34 +33,42 @@ for i =1:1:L
         if(i==1)
             G(n,:) = 0;
             G(n,n) = 1;
+            R(n) = 1;
         elseif(i==L)
             G(n,:) = 0;
             G(n,n) = 1;
+            R(n) = 1;
         elseif(j==1)
             G(n,:) = 0;
             G(n,n) = 1;
+            R(n) = 0;
         elseif(j==W)
             G(n,:) = 0;
-            G(n,n) = 0;
+            G(n,n) = 1;
+            R(n) = 0;
         else          
-            G(n,n) = -4;
+            G(n,:)=0;
             G(n,nxm) = 1; 
             G(n,nxp) = 1;
             G(n,nym) = 1;
             G(n,nyp) = 1;
+            G(n,n) = -4;
         end
     end
 end
 
-[V,D] = eigs(G);
+V = G\R;
 
 %remap
+K = zeros(L,W);
 for i =1:1:L
     for j =1:1:W
         n=j+(i-1)*W;
-        
-        Vs(i,j) =V(n,1);
-        
+        K(i,j) =V(n);
     end
 end
+
+figure(3);
+surf(K);
+
 
