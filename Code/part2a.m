@@ -1,7 +1,3 @@
-clearvars
-clearvars -GLOBAL
-close all 
-
 
 global C
 
@@ -17,7 +13,7 @@ C.q_0 = 1.60217653e-19;             % electron charge
     
 
 %working area
-W = 50;
+W = 20;
 L = W*3/2;
 
 centreX = L/2;
@@ -29,7 +25,7 @@ B = zeros(L*W,1);
 
 %conductivity
 s1 = 1;
-s2 = 0.99;
+s2 = 0.01;
 
 %resistive regions size
 rL = L*1/4;
@@ -52,7 +48,7 @@ for i =1:1:L
         elseif(i==L)
             G(n,:) = 0;
             G(n,n) = 1;
-            B(n) = 0;
+            B(n) = 1;
             Smap(i,j) = s1;
         elseif(j==1)
             G(n,:) = 0;
@@ -124,19 +120,25 @@ J = Smap.*E;
 
 figure(5)
 surf(Vmap)
-figure(5)
-colormap default
+colorbar
 title('Voltage map'),xlabel('X'),ylabel('Y'),zlabel('Voltage')
 
 figure(6)
 surf(Smap)
+colorbar
 title('Sigma map'),xlabel('X'),ylabel('Y'),zlabel('Sigma');
 
 figure(7)
-surf(Ex),title('Electric field X');
+surf(Ex)
+colorbar
+title('Electric field X'),xlabel('X'),ylabel('Y'),zlabel('E Field');
+
 figure(8)
-surf(Ey),title('Electric field Y');
+surf(Ey)
+colorbar
+title('Electric field Y'),xlabel('X'),ylabel('Y'),zlabel('E Field');
 
 figure(9)
 surf(J)
-title('Current density');
+colorbar
+title('Current density'),xlabel('X'),ylabel('Y'),zlabel('Current/m^2');

@@ -1,8 +1,4 @@
-clearvars
-clearvars -GLOBAL
-close all 
-
-
+function I = part2c(bottleneck)
 global C
 
 C.q_0 = 1.60217653e-19;             % electron charge
@@ -29,11 +25,11 @@ B = zeros(L*W,1);
 
 %conductivity
 s1 = 1;
-s2 = 0.99;
+s2 = 0.01;
 
 %resistive regions size
 rL = L*1/4;
-rW = W*2/5;
+rW = W*bottleneck;
 
 Smap = zeros(L,W);
 for i =1:1:L
@@ -116,27 +112,12 @@ for i =1:1:L
     end
 end
 
-[Ey,Ex] = gradient(Vmap);
-
 E = gradient(Vmap);
 
 J = Smap.*E;
 
-figure(5)
-surf(Vmap)
-figure(5)
-colormap default
-title('Voltage map'),xlabel('X'),ylabel('Y'),zlabel('Voltage')
+area = L*W;
+Javg = sum(sum(J))/(L*W);
+I = Javg/area;
 
-figure(6)
-surf(Smap)
-title('Sigma map'),xlabel('X'),ylabel('Y'),zlabel('Sigma');
-
-figure(7)
-surf(Ex),title('Electric field X');
-figure(8)
-surf(Ey),title('Electric field Y');
-
-figure(9)
-surf(J)
-title('Current density');
+end

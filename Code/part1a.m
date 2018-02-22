@@ -1,7 +1,3 @@
-clearvars
-clearvars -GLOBAL
-close all 
-
 
 global C
 
@@ -72,8 +68,7 @@ for i =1:1:L
     end
 end
 
-x = linspace(0,L,L);
-y = linspace(0,W,W);
-
 figure(1);
-surf(K);
+surf(K)
+colorbar
+title('Voltage map of V(x=0)=1, V(x=L)=0'),xlabel('Width'),ylabel('Length'),zlabel('Voltage');

@@ -1,7 +1,4 @@
-clearvars
-clearvars -GLOBAL
-close all 
-
+function I = part2d(sigma)
 
 global C
 
@@ -25,15 +22,15 @@ centreY = W/2;
 
 %matrices
 G = zeros(L*W,L*W);
-R = zeros(L*W,1);
+B = zeros(L*W,1);
 
 %conductivity
 s1 = 1;
-s2 = 0.01;
+s2 = sigma;
 
 %resistive regions size
-rL = L*1/3;
-rW = W*1/5;
+rL = L*1/4;
+rW = W*2/5;
 
 Smap = zeros(L,W);
 for i =1:1:L
@@ -47,12 +44,12 @@ for i =1:1:L
         if(i==1)
             G(n,:) = 0;
             G(n,n) = 1;
-            R(n) = 1;
+            B(n) = 1;
             Smap(i,j) = s1;
         elseif(i==L)
             G(n,:) = 0;
             G(n,n) = 1;
-            R(n) = 1;
+            B(n) = 0;
             Smap(i,j) = s1;
         elseif(j==1)
             G(n,:) = 0;
@@ -105,7 +102,7 @@ for i =1:1:L
     end
 end
 
-V = G\R;
+V = G\B;
 
 %remap
 Vmap = zeros(L,W);
@@ -116,21 +113,13 @@ for i =1:1:L
     end
 end
 
-Ex = zeros(L,W);
-Ey = zeros(L,W);
-for i =1:1:L
-    for j =1:1:W
-        if(i==1)
-            
-        elseif(i==L)
-            
-        else
-            
-        end
-        if(j
 
-figure(5);
-surf(Vmap);
+E = gradient(Vmap);
 
-figure(6);
-surf(Smap);
+J = Smap.*E;
+
+area = L*W;
+Javg = sum(sum(J))/(L*W);
+I = Javg/area;
+
+end

@@ -1,7 +1,3 @@
-clearvars
-clearvars -GLOBAL
-close all 
-
 
 global C
 
@@ -68,7 +64,8 @@ for i =1:1:L
     end
 end
 
-figure(3);
+figure(2);
 surf(K);
-
-
+colorbar
+title('Voltage map of X boundary =1 and Y boundary =0')
+xlabel('Width'),ylabel('length'),zlabel('Voltage');
